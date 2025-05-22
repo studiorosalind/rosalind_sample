@@ -137,14 +137,14 @@ class Token(BaseModel):
 
 class SlackEventRequest(BaseModel):
     """Model for Slack event request."""
-    token: str
+    token: Optional[str] = ""
     team_id: str
     api_app_id: str
     event: Dict[str, Any]
     type: str
     event_id: str
     event_time: int
-    authed_users: List[str]
+    authed_users: Optional[List[str]] = Field(default_factory=list)
     challenge: Optional[str] = None
 
 

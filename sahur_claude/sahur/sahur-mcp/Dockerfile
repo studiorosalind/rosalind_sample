@@ -2,12 +2,6 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-# Copy sahur-core first
-COPY ../sahur-core /app/sahur-core
-
-# Install sahur-core
-RUN pip install -e /app/sahur-core
-
 # Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -15,8 +9,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application
 COPY . .
 
+# Make the install_core.sh script executable
+RUN chmod +x install_core.sh
+
 # Expose the port
 EXPOSE 8002
 
-# Run the application
-CMD ["python", "-m", "sahur_mcp.main"]
+# Run the script to install sahur-core and then start the application
+CMD ["bash", "-c", "./install_core.sh && python -m sahur_mcp.main"]

@@ -23,7 +23,7 @@ class HistoryContextServer(MCPServer):
         super().__init__(name="sahur-mcp")
         
         # Register tools
-        self.register_tool(
+        self.add_tool(
             Tool(
                 name="getHistoryContext",
                 description="Get historical context for an issue description",

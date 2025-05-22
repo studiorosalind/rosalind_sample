@@ -23,7 +23,7 @@ class CauseContextServer(MCPServer):
         super().__init__(name="sahur-mcp")
         
         # Register tools
-        self.register_tool(
+        self.add_tool(
             Tool(
                 name="getCauseContext",
                 description="Get cause context for an event transaction",

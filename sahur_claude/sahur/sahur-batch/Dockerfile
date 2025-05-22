@@ -12,5 +12,6 @@ COPY . .
 # Make the install_core.sh script executable
 RUN chmod +x install_core.sh
 
-# Run the application with core installation
-ENTRYPOINT ["/bin/bash", "-c", "./install_core.sh && python -m sahur_batch.main"]
+# Set the entrypoint to install sahur-core and then run the batch process
+# The sahur-core directory will be mounted as a volume at runtime
+ENTRYPOINT ["/bin/bash", "-c", "./install_core.sh && python -m sahur_batch.server"]
