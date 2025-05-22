@@ -5,12 +5,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# sahur-core editable install
-COPY ../sahur-core ../sahur-core
-RUN pip install -e ../sahur-core
-
-COPY . .
+COPY sahur_server/ ./sahur_server
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "sahur_server.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
