@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sahur-server"
+version = "0.1.0"
+description = "SAHUR 메인 API 서버 및 이슈 트래킹 관리자"
+authors = [
+    {name = "SAHUR Team", email = "dev@sahur.ai"}
+]
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic>=2.0.0",
+    "psycopg2-binary",
+    "sqlalchemy",
+    "websockets",
+    "httpx",
+    "sahur-core @ file://../sahur-core"
+]

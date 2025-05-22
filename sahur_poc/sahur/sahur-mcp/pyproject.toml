@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sahur-mcp"
+version = "0.1.0"
+description = "SAHUR MCP 프록시 서버"
+authors = [
+    {name = "SAHUR Team", email = "dev@sahur.ai"}
+]
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic>=2.0.0",
+    "websockets",
+    "httpx",
+    "sahur-core @ file://../sahur-core"
+]

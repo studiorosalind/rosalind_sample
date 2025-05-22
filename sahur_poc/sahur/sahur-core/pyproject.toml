@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sahur-core"
+version = "0.1.0"
+description = "SAHUR 핵심 에이전트 로직 및 공통 라이브러리"
+authors = [
+    {name = "SAHUR Team", email = "dev@sahur.ai"}
+]
+dependencies = [
+    "pydantic>=2.0.0",
+    "langchain",
+    "langgraph",
+    "websockets"
+]

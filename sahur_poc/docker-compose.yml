@@ -1,0 +1,83 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: sahur
+      POSTGRES_PASSWORD: sahurpw
+      POSTGRES_DB: sahurdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  vectordb:
+    image: qdrant/qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - vectordb_data:/qdrant/storage
+
+  sahur-core:
+    build:
+      context: ./sahur/sahur-core
+    volumes:
+      - ./sahur/sahur-core:/app
+    command: ["python3"]
+    # 독립 실행은 하지 않음(의존성 제공용)
+
+  sahur-server:
+    build:
+      context: ./sahur/sahur-server
+    volumes:
+      - ./sahur/sahur-server:/app
+      - ./sahur/sahur-core:/sahur-core
+    environment:
+      - DATABASE_URL=postgresql://sahur:sahurpw@db:5432/sahurdb
+      - VECTORDATABASE_URL=http://vectordb:6333
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - vectordb
+      - sahur-core
+
+  sahur-batch:
+    build:
+      context: ./sahur/sahur-batch
+    volumes:
+      - ./sahur/sahur-batch:/app
+      - ./sahur/sahur-core:/sahur-core
+    environment:
+      - VECTORDATABASE_URL=http://vectordb:6333
+    ports:
+      - "8010:8010"
+    depends_on:
+      - sahur-core
+
+  sahur-mcp:
+    build:
+      context: ./sahur/sahur-mcp
+    volumes:
+      - ./sahur/sahur-mcp:/app
+      - ./sahur/sahur-core:/sahur-core
+    ports:
+      - "8020:8020"
+    depends_on:
+      - sahur-core
+
+  sahur-web:
+    build:
+      context: ./sahur/sahur-web
+    volumes:
+      - ./sahur/sahur-web:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - sahur-server
+      - sahur-batch
+      - sahur-mcp
+
+volumes:
+  db_data:
+  vectordb_data:

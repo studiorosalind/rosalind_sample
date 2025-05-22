@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+pydantic>=2.0.0
+websockets
+httpx
+# sahur-core는 개발 환경에서 pip install -e ../sahur-core로 설치
