@@ -356,3 +356,5 @@ backup_*/
 *.rar
 *.7z
 large_files/
+
+.env.example

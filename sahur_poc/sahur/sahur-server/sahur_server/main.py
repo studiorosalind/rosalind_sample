@@ -2,9 +2,24 @@ from fastapi import FastAPI, WebSocket, Request
 from pydantic import BaseModel
 from typing import Dict, Any
 import uuid
+import os
+import logging
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 from .db import create_issue_tracking, get_issue_tracking
 from .websocket import notify_issue_update
+
+# Get database URL from environment variables
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    logger.warning("DATABASE_URL environment variable not set. Using default connection.")
 
 app = FastAPI()
 
